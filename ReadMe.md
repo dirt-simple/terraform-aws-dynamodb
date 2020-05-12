@@ -1,7 +1,7 @@
 # terraform-aws-dynamodb infrastructure model
 This module is intended to enforce service standards across the Dirt Simple projects by defining in code platform architecture. This module simplifies and standardize the deployment of `DynamoDb` database and the creation of `Revision Records` from the it's event stream.
 
-![terraform-aws-dynamodb infrastructure model](docs/terraform-aws-dynamodb-infrustructure?raw=true "terraform-aws-dynamodb infrastructure")
+![terraform-aws-dynamodb infrastructure model](docs/terraform-aws-dynamodb-infrustructure.png?raw=true "terraform-aws-dynamodb infrastructure")
 
 
 ## Usage
