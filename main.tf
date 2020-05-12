@@ -94,7 +94,7 @@ resource "aws_lambda_function" "revision_record_publisher" {
   function_name    = "${local.qualified_name}-revision-record-publisher"
   source_code_hash = data.archive_file.revision_record_lambda.output_base64sha256
   role             = aws_iam_role.iam_for_lambda.arn
-  runtime          = "nodejs8.10"
+  runtime          = "nodejs12.x"
   handler          = "index.handler"
   timeout          = 120
 
