@@ -13,6 +13,12 @@ variable "service" {
   description = "Service  (e.g. `deploy-jobs` or `deploy-schedule`)"
 }
 
+variable "sns_event_bus" {
+  type        = string
+  description = "Service  (e.g. `deploy-jobs` or `deploy-schedule`)"
+}
+
+
 variable "attributes" {
   type        = list(string)
   default     = []

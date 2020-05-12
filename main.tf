@@ -100,7 +100,7 @@ resource "aws_lambda_function" "revision_record_publisher" {
 
   environment {
     variables = {
-      REVISION_RECORD_TOPIC_ARN = data.aws_ssm_parameter.revision_record_topic.value
+      REVISION_RECORD_TOPIC_ARN = data.aws_sns_topic.event_bus.arn
       MODEL_NAME                = var.model
       MODEL_SCHEMA_VERSION      = "1.0"
       MODEL_IDENTIFIER_FIELD    = var.hash_key
@@ -113,10 +113,6 @@ data "archive_file" "revision_record_lambda" {
   type = "zip"
   source_file = "${path.module}/lambda/index.js"
   output_path = "${path.module}/lambda_function.zip"
-}
-
-data "aws_ssm_parameter" "revision_record_topic" {
-  name = "/shared/revision_records/${var.stage}/sns_topic"
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
@@ -165,7 +161,7 @@ resource "aws_iam_role_policy" "activity_stream_policy" {
         "sns:Publish"
       ],
       "Resource": [
-        "${data.aws_ssm_parameter.revision_record_topic.value}"
+        "${data.aws_sns_topic.event_bus.arn}"
       ]
     },
     {
@@ -185,14 +181,7 @@ resource "aws_iam_role_policy" "activity_stream_policy" {
 EOF
 }
 
-resource "aws_ssm_parameter" "service_model_table_arn_ssm_paramater" {
-  name  = "/${local.service}/${local.stage}/${local.model}-table-arn"
-  type  = "String"
-  value = "${aws_dynamodb_table.service_model_table.arn}"
+data "aws_sns_topic" "event_bus" {
+  name = var.sns_event_bus
 }
 
-resource "aws_ssm_parameter" "service_model_table_name_ssm_paramater" {
-  name  = "/${local.service}/${local.stage}/${local.model}-table-name"
-  type  = "String"
-  value = "${aws_dynamodb_table.service_model_table.name}"
-}
