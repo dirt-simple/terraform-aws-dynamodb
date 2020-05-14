@@ -19,9 +19,8 @@ locals {
 
   attributes_final = slice(local.attributes, local.from_index, length(local.attributes))
   service = replace(var.service, "/[_]/", "-")
-  stage = replace(var.stage, "/[_]/", "-")
   model = replace(var.model, "/[_]/", "-")
-  qualified_name = "${local.service}-${local.stage}-${local.model}"
+  qualified_name = "${local.service}-${local.model}"
 }
 
 resource "null_resource" "global_secondary_index_names" {
@@ -100,7 +99,7 @@ resource "aws_lambda_function" "revision_record_publisher" {
 
   environment {
     variables = {
-      REVISION_RECORD_TOPIC_ARN = data.aws_sns_topic.event_bus.arn
+      EVENT_BUS_TOPIC_ARN = data.aws_sns_topic.event_bus.arn
       MODEL_NAME                = var.model
       MODEL_SCHEMA_VERSION      = "1.0"
       MODEL_IDENTIFIER_FIELD    = var.hash_key

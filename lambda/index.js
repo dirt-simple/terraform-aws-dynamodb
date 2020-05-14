@@ -2,7 +2,7 @@
 var AWS = require("aws-sdk");
 var sns = new AWS.SNS();
 
-const REVISION_RECORD_TOPIC_ARN = process.env.REVISION_RECORD_TOPIC_ARN;
+const EVENT_BUS_TOPIC_ARN = process.env.EVENT_BUS_TOPIC_ARN;
 const MODEL_NAME = process.env.MODEL_NAME;
 const MODEL_SCHEMA_VERSION = process.env.MODEL_SCHEMA_VERSION;
 const MODEL_IDENTIFIER_FIELD = process.env.MODEL_IDENTIFIER_FIELD;
@@ -59,11 +59,11 @@ function construct_sns_revision_params(revision_record){
   add_message(message, revision_record)
   add_messages_attrs(message, revision_record)
   add_additional_messages_attrs(message, revision_record)
-  add_topic_arn(message, REVISION_RECORD_TOPIC_ARN)
+  add_topic_arn(message, EVENT_BUS_TOPIC_ARN)
   return message;
 }
 
-function add_message(message, revision_record){
+function  add_message(message, revision_record){
   message['Message'] = JSON.stringify(revision_record)
 }
 

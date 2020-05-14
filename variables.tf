@@ -3,11 +3,6 @@ variable "model" {
   description = "Model Name (e.g. `job` or `worker`)"
 }
 
-variable "stage" {
-  type        = string
-  description = "Stage (e.g. `prod`, `dev`, `staging`, `infra`)"
-}
-
 variable "service" {
   type        = string
   description = "Service  (e.g. `deploy-jobs` or `deploy-schedule`)"
